@@ -1,0 +1,62 @@
+﻿@model IEnumerable<GetMediaFiles_Result>
+@using UploadPlayVideoFile.Models;
+@{
+    ViewBag.Title = "MediaFiles";
+}
+
+<div class="jumbotron">
+    <h3>Upload and Play Media File Using ASP.NET MVC5</h3>
+</div>
+
+<div class="row">
+    <button style="margin-left: 27px; margin-bottom:10px;" type="button" class="btn btn-danger rounded-0" data-toggle="modal" data-target="#UploadVideo">
+        <i class="fa fa-plus-circle"></i> Add New
+    </button>
+    <div class="modal fade" id="UploadVideo">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload New video File</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("MediaFiles", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group">
+                            <label>Choose File:</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" id="httpPostedFileBase" name="httpPostedFileBase" class="custom-file-input" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <div class="input-group-append">
+                                    <input type="submit" id="btnUpload" class="btn btn-secondary" value="Upload" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <p>
+                <video style="width:100%; height:auto;" controls>
+                    <source src="@Url.Content(item.filepath)" type="video/mp4" />
+                </video>
+            </p>
+            <p>
+                @item.filename
+            </p>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MediaFiles">
+          <Key>
+            <PropertyRef Name="mediaid" />
+          </Key>
+          <Property Name="mediaid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="filename" Type="nvarchar(max)" />
+          <Property Name="filesize" Type="int" />
+          <Property Name="filepath" Type="nvarchar(max)" />
+        </EntityType>
+        <Function Name="GetMediaFiles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SaveMediaFile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="filename" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="filesize" Type="int" Mode="In" />
+          <Parameter Name="filepath" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="TestingDBModelStoreContainer">
+          <EntitySet Name="MediaFiles" EntityType="Self.MediaFiles" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TestingDBEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="GetMediaFiles" ReturnType="Collection(TestingDBModel.GetMediaFiles_Result)" />
+          <FunctionImport Name="SaveMediaFile">
+            <Parameter Name="filename" Mode="In" Type="String" />
+            <Parameter Name="filesize" Mode="In" Type="Int32" />
+            <Parameter Name="filepath" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="MediaFiles" EntityType="TestingDBModel.MediaFile" />
+        </EntityContainer>
+        <ComplexType Name="GetMediaFiles_Result">
+          <Property Type="Int32" Name="mediaid" Nullable="false" />
+          <Property Type="String" Name="filename" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="filesize" Nullable="true" />
+          <Property Type="String" Name="filepath" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="MediaFile">
+          <Key>
+            <PropertyRef Name="mediaid" />
+          </Key>
+          <Property Name="mediaid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="filesize" Type="Int32" />
+          <Property Name="filepath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestingDBModelStoreContainer" CdmEntityContainer="TestingDBEntities" >
+          <FunctionImportMapping FunctionImportName="GetMediaFiles" FunctionName="TestingDBModel.Store.GetMediaFiles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TestingDBModel.GetMediaFiles_Result">
+                <ScalarProperty Name="mediaid" ColumnName="mediaid" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="filesize" ColumnName="filesize" />
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SaveMediaFile" FunctionName="TestingDBModel.Store.SaveMediaFile" />
+          <EntitySetMapping Name="MediaFiles">
+            <EntityTypeMapping TypeName="TestingDBModel.MediaFile">
+              <MappingFragment StoreEntitySet="MediaFiles">
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="filesize" ColumnName="filesize" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="mediaid" ColumnName="mediaid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
